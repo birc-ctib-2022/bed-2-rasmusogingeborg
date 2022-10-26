@@ -7,7 +7,7 @@ from typing import TextIO
 from bed import (
     read_bed_file, print_line, Table
 )
-
+#hej
 
 def sort_file(table: Table) -> None:
     """Sort each chromosome and update the table."""
