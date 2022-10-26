@@ -34,6 +34,7 @@ def merge(f1: list[BedLine], f2: list[BedLine], outfile: TextIO) -> None:
     # FIXME: I have work to do here!
 
 
+
 def main() -> None:
     """Run the program."""
     # Setting up the option parsing using the argparse module
