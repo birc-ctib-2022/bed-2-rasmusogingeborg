@@ -7,7 +7,12 @@ from typing import TextIO
 from bed import (
     read_bed_file, print_line, Table, BedLine
 )
+<<<<<<< HEAD
 # Unødvendigt med BedLine?
+=======
+#hej
+#hej
+>>>>>>> d8689cf39eab2bca256923cb094505840042963f
 
 def sort_file(table: Table) -> None:
     """Sort each chromosome and update the table.""" # a global 
@@ -17,10 +22,16 @@ def sort_file(table: Table) -> None:
         # Here we iterate through all the chromosomes in the file.
         # You need to sort `features` with respect to chrom_start
         # and then updatte the table
+<<<<<<< HEAD
         for i in range(len(features)): # iterate over all BedLines in
         # list. 
             print(features[i].chrom_start)
         table[chrom] = features  # features should be sorted here
+=======
+        # FIXME: sort `features`
+        
+        table[chrom] = sorted(features)  # features should be sorted here
+>>>>>>> d8689cf39eab2bca256923cb094505840042963f
 
 table = {'chr1': [BedLine(chrom='chr1', chrom_start=20100, chrom_end=20101,  
 name='foo'), BedLine(chrom='chr1', chrom_start=600, chrom_end=601, 
@@ -35,6 +46,8 @@ def print_file(table: Table, outfile: TextIO) -> None:
     for chrom in sorted(table.tbl):
         for feature in table.get_chrom(chrom):
             print_line(feature, outfile)
+
+
 
 
 def main() -> None:

@@ -43,7 +43,6 @@ def merge(f1: list[BedLine], f2: list[BedLine], outfile: TextIO) -> None:
         BedLine(chrom='chr3', chrom_start=0, chrom_end=1, name='qax')])
     """
     # Input bedlines er sorted. 
-    # Nedenfor kun merged ift. chrom_start.
     # Hver region kun én nucleotid lang. 
     lst = []
     i, j = 0,0 # indice over all elements in f1 and f2. 
@@ -77,6 +76,7 @@ print(merge([BedLine(chrom='chr1', chrom_start=600, chrom_end=601, name='qux'), 
         BedLine(chrom='chr2', chrom_start=199, chrom_end=200, name='qax'), \
         BedLine(chrom='chr2', chrom_start=200, chrom_end=201, name='qax'), \
         BedLine(chrom='chr3', chrom_start=0, chrom_end=1, name='qax')], sys.stdout))
+
 
 
 def main() -> None:
