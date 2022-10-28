@@ -3,15 +3,17 @@
 import argparse  # we use this module for option parsing. See main for details.
 
 import sys
+from turtle import up
 from bed import (
     read_bed_file, print_line, BedLine
 )
-
+from bed import Table as table
 
 def extract_region(features: list[BedLine],
-                   start: int, end: int) -> list[BedLine]:
+                   start: int, end: int,) -> list[BedLine]:
     """Extract region chrom[start:end] and write it to outfile."""
-    return []  # FIXME: We want the actual region, not an empty list!
+    
+   
 
 
 def main() -> None:
@@ -40,6 +42,7 @@ def main() -> None:
         # that we want.
         region = extract_region(
             features.get_chrom(chrom), int(start), int(end))
+        #print(region)
         for line in region:
             print_line(line, args.outfile)
 

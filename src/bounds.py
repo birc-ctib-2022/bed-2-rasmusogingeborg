@@ -6,13 +6,20 @@ a list of features, here we only concern ourselves with lists of integers.
 """
 
 
+from msvcrt import kbhit
+import re
+
+
 def lower_bound(x: list[int], v: int) -> int:
     """Get the index of the lower bound of v in x.
+    
 
     If all values in x are smaller than v, return len(x).
     """
-    return 0  # FIXME: Obviously the answer isn't always 0
+    # FIXME: Obviously the answer isn't always 0
+  
 
+   
 
 def upper_bound(x: list[int], v: int) -> int:
     """Get the index of the upper bound of v in x.
