@@ -6,12 +6,33 @@ import sys
 from bed import (
     read_bed_file, print_line, BedLine
 )
-
+from bounds import (
+    lower_bound, upper_bound
+)
 
 def extract_region(features: list[BedLine],
                    start: int, end: int) -> list[BedLine]:
     """Extract region chrom[start:end] and write it to outfile."""
-    return []  # FIXME: We want the actual region, not an empty list!
+    # Assume that input list is list of BedLines on the same chromosome.
+
+    # Make list with chrom_start for each bedline. idx of chrom_start
+    # in list correspond to idx of corresponding bedline in bedline 
+    # list.
+    lst = []
+    for bedline in features:
+        print(bedline)
+        lst.append(bedline.chrom_start)
+    print(lst)
+    
+    output = []
+    for i in range(start, end): 
+    # compute upper and lower bound for each chrom_start.
+    # tilføj bedlines i x[lb(i):ub(i)] til output, dvs. alle bedlines
+    # for nucleotider med chrom_start = i. 
+        lb = lower_bound(lst, i) 
+        ub = upper_bound(lst, i)
+        output.extend(features[lb:ub])
+    return output
 
 
 def main() -> None:

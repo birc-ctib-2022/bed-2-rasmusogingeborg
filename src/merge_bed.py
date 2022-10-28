@@ -42,16 +42,41 @@ def merge(f1: list[BedLine], f2: list[BedLine], outfile: TextIO) -> None:
         BedLine(chrom='chr2', chrom_start=200, chrom_end=201, name='qax'), \
         BedLine(chrom='chr3', chrom_start=0, chrom_end=1, name='qax')])
     """
-    # Antag at hver nucleotid kun én gang i hver fil.
-    # Hvordan håndtere, hvis et nucleotid ikke findes i begge filer men kun én. 
-    # Hvis samme chromosome og samme chrom_start, skal features merges. 
-    for nucleotide1 in f1:
-        for nucleotide2 in f2:
-            if nucleotide1.chrom == nucleotide2.chrom and nucleotide1.chrom_start == nucleotide2.chrom_start:
-                print(BedLine(nucleotide1.chrom_start, nucleotide1.chrom_start, nucleotide1.chrom_end, (nucleotide1.name, nucleotide2.name)))
+    # Input bedlines er sorted. 
+    # Nedenfor kun merged ift. chrom_start.
+    # Hver region kun én nucleotid lang. 
+    lst = []
+    i, j = 0,0 # indice over all elements in f1 and f2. 
+        while f1[i].chrom == f2[j].chrom and i < len(f1) and j < len(f2):
+            if f1[i].chrom_start < f2[j].chrom_start:
+                lst.append(f1[i])
+                i += 1
+            elif f1[i].chrom_start > f2[j].chrom_start:
+                lst.append(f2[j])
+                j += 1
+            else: # f1[i].chrom_start == f2[i].chrom_start
+                lst.append(BedLine(f1[i].chrom, f1[i].chrom_start, f1[i].chrom_end, (f1[i].name, f2[i].name)))
+                i += 1
+                j += 1
+        while f1[i].chrom == f2[j].chrom and i < len(f1): # All bedlines in f2 added to lst.
+            lst.append(f1[i])
+            i += 1
+        while f1[i].chrom == f2[j].chrom and j < len(f2): # All bedlines in f1 added to lst.
+            lst.append(f2[j])
+            j += 1
+                
+    return lst 
 
-        
-
+print(merge([BedLine(chrom='chr1', chrom_start=600, chrom_end=601, name='qux'), \
+        BedLine(chrom='chr1', chrom_start=20100, chrom_end=20101, name='qux'), \
+        BedLine(chrom='chr2', chrom_start=199, chrom_end=200, name='qux'), \
+        BedLine(chrom='chr2', chrom_start=200, chrom_end=201, name='qux'), \
+        BedLine(chrom='chr3', chrom_start=0, chrom_end=1, name='qux')], \
+        [BedLine(chrom='chr1', chrom_start=600, chrom_end=601, name='qax'), \
+        BedLine(chrom='chr1', chrom_start=20100, chrom_end=20101, name='qax'), \
+        BedLine(chrom='chr2', chrom_start=199, chrom_end=200, name='qax'), \
+        BedLine(chrom='chr2', chrom_start=200, chrom_end=201, name='qax'), \
+        BedLine(chrom='chr3', chrom_start=0, chrom_end=1, name='qax')], sys.stdout))
 
 
 def main() -> None:
@@ -71,9 +96,7 @@ def main() -> None:
     # With all the options handled, we just need to do the real work
     features1 = read_bed_file(args.f1)
     features2 = read_bed_file(args.f2)
-    print(features1)
-    print(features2)
-    #merge(features1, features2, args.outfile)
+    merge(features1, features2, args.outfile)
 
 
 if __name__ == '__main__':
