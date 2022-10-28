@@ -20,9 +20,7 @@ def extract_region(features: list[BedLine],
     # list.
     lst = []
     for bedline in features:
-        print(bedline)
         lst.append(bedline.chrom_start)
-    print(lst)
     
     output = []
     for i in range(start, end): 
