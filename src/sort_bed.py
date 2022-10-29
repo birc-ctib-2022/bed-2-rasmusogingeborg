@@ -5,21 +5,30 @@ import argparse  # we use this module for option parsing. See main for details.
 import sys
 from typing import TextIO
 from bed import (
-    read_bed_file, print_line, Table
+    read_bed_file, print_line, Table, BedLine
 )
-#hej
-#hej
+# Unødvendigt med BedLine?
 
 def sort_file(table: Table) -> None:
-    """Sort each chromosome and update the table."""
-    for chrom, features in table.items():
+    """Sort each chromosome and update the table.""" # a global 
+    # variable is modified. None is returned.
+    for chrom, features in table.items(): # features is a list of 
+        # BedLines with a specific chrom.
         # Here we iterate through all the chromosomes in the file.
         # You need to sort `features` with respect to chrom_start
-        # and then updatte the table
-        # FIXME: sort `features`
-        
-        table[chrom] = sorted(features)  # features should be sorted here
+        # and then update the table
+        for i in range(len(features)): # iterate over all BedLines in
+        # list. 
+            print(features[i].chrom_start)
+        table[chrom] = features  # features should be sorted here
 
+table = {'chr1': [BedLine(chrom='chr1', chrom_start=20100, chrom_end=20101,  
+name='foo'), BedLine(chrom='chr1', chrom_start=600, chrom_end=601, 
+name='baz')], 'chr3': [BedLine(chrom='chr3', chrom_start=0, 
+chrom_end=1, name='bar')], 'chr2': [BedLine(chrom='chr2', chrom_start 
+=200, chrom_end=201, name='qux'), BedLine(chrom='chr2', chrom_start= 
+199, chrom_end=200, name='qax')]}
+print(sort_file(table))
 
 def print_file(table: Table, outfile: TextIO) -> None:
     """Write the content of table to outfile."""
