@@ -1,6 +1,7 @@
 """Tool for cleaning up a BED file."""
 
-import argparse  # we use this module for option parsing. See main for details.
+import argparse
+from re import A  # we use this module for option parsing. See main for details.
 
 import sys
 from typing import TextIO
@@ -44,38 +45,42 @@ def merge(f1: list[BedLine], f2: list[BedLine], outfile: TextIO) -> None:
     """
     # Input bedlines er sorted. 
     # Hver region kun én nucleotid lang. 
-    lst = []
-    i, j = 0,0 # indice over all elements in f1 and f2. 
-        while f1[i].chrom == f2[j].chrom and i < len(f1) and j < len(f2):
-            if f1[i].chrom_start < f2[j].chrom_start:
-                lst.append(f1[i])
-                i += 1
-            elif f1[i].chrom_start > f2[j].chrom_start:
-                lst.append(f2[j])
-                j += 1
-            else: # f1[i].chrom_start == f2[i].chrom_start
-                lst.append(BedLine(f1[i].chrom, f1[i].chrom_start, f1[i].chrom_end, (f1[i].name, f2[i].name)))
-                i += 1
-                j += 1
-        while f1[i].chrom == f2[j].chrom and i < len(f1): # All bedlines in f2 added to lst.
-            lst.append(f1[i])
-            i += 1
-        while f1[i].chrom == f2[j].chrom and j < len(f2): # All bedlines in f1 added to lst.
-            lst.append(f2[j])
-            j += 1
-                
-    return lst 
 
-print(merge([BedLine(chrom='chr1', chrom_start=600, chrom_end=601, name='qux'), \
-        BedLine(chrom='chr1', chrom_start=20100, chrom_end=20101, name='qux'), \
-        BedLine(chrom='chr2', chrom_start=199, chrom_end=200, name='qux'), \
-        BedLine(chrom='chr2', chrom_start=200, chrom_end=201, name='qux'), \
-        BedLine(chrom='chr3', chrom_start=0, chrom_end=1, name='qux')], \
-        [BedLine(chrom='chr1', chrom_start=600, chrom_end=601, name='qax'), \
-        BedLine(chrom='chr1', chrom_start=20100, chrom_end=20101, name='qax'), \
-        BedLine(chrom='chr2', chrom_start=199, chrom_end=200, name='qax'), \
-        BedLine(chrom='chr2', chrom_start=200, chrom_end=201, name='qax'), \
-        BedLine(chrom='chr3', chrom_start=0, chrom_end=1, name='qax')], sys.stdout))
+    a=0
+    b=0
+
+    while a <= len(f1)-1 and b <= len(f2)-1:
+        if f1[a][0]==f2[b][0]:
+            if f1[a][1]<f2[b][1]:
+                print_line(f1[a],outfile)
+                a+=1
+            elif f1[a][0]>f2[b][0]:
+                print_line(f1[b],outfile)
+                b+=1
+            elif f1[a][1]==f2[b][1]:
+                print_line(f1[a],outfile)
+                a+=1
+                print_line(f1[b],outfile)
+                b+=1
+                
+            
+        else:
+            if f1[a][0]<f2[b][0]:
+                print_line(f1[a],outfile)
+                a+=1
+            elif f1[a][0]>f2[b][0]:
+                print_line(f1[b],outfile)
+                b+=1
+    
+    if a != len(f1)-1:
+        for i in range(a,len(f1)-1):
+            print_line(f1[i],outfile)
+    elif b != len(f2)-1:
+        for i in range(b,len(f2)-1):
+            print_line(f1[i],outfile)
+
+
+   
 
 
 
