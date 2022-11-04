@@ -3,25 +3,25 @@
 # names that start with test_
 
 
-from pathlib import Path
+#from pathlib import Path
 
-file_path1=Path(r"c:\Users\Ralle\OneDrive\Universitet\Computational thinking\bed-2-rasmusogingeborg\data\input-sorted.bed")
-file_path2=Path(r"c:\Users\Ralle\OneDrive\Universitet\Computational thinking\bed-2-rasmusogingeborg\data\sort_test")
+#file_path1=Path(r"c:\Users\Ralle\OneDrive\Universitet\Computational thinking\bed-2-rasmusogingeborg\data\input-sorted.bed")
+#file_path2=Path(r"c:\Users\Ralle\OneDrive\Universitet\Computational thinking\bed-2-rasmusogingeborg\data\sort_test")
 
-def test_sort():
+#def test_sort():
  
-    with open(file_path1) as file_1, open(file_path2) as file_2:
+    #with open(file_path1) as file_1, open(file_path2) as file_2:
  
-        while True:
+        #while True:
   
             # Get next line from file
-            line = file_1.readline()
-            line2 = file_2.readline()
+          #  line = file_1.readline()
+           # line2 = file_2.readline()
             # if line is empty
             # end of file is reached
-            if not line:
-                break
+            #if not line:
+             #   break
 
-            assert line==line2
+         #   assert line==line2
         
 
