@@ -60,7 +60,14 @@ Once you have implemented a lower bound search for the start of the range, imple
 
 *How do you use binary search to find the lower bound of a number? How did you have to modify the binary search algorithm?*
 
+-When we use binary search to determine the lower bound, we return the idx of the smallest element equal to or larger than v instead of the idx of the element equal to v.
+We find this by searching in the upper half of x if x[mid]<v and by searching in the lower half if x[mid]>v. This is the same as in the ordinary binary search. In contrast to binary search, we continue to search in the lower half if x[mid]=v, to see if there is an element at a lower idx equal to v, and we do not stop searching until low = high.
+
 *Would anything be more difficult if the features covered ranges instead of single nucleotides (like real BED files)? What could go wrong, if anything?*
 
+- We would also have to comepare the end values for all the features with the upper value as one might start within the interval but end beyond the upper value. 
+
 *We wrote a tool for merging two BED files, but what if we had a bunch of them? What would the complexity be if we merged them in, one at a time? What would the complexity be if we merged all of the files at the same time?*
+
+- The complexity would be the same as with 2 BED files so O(n+m) (linear time) because we go trough both files from one end to the other. The complexity if we merge all of the BED files at the same time is also linear time and the length of all the files are added together so O(a+b+c+d+e). This is because we just compare all the values and then pick the smallest and add it to a new list, and then go to the nex value from the list it came from.   
 

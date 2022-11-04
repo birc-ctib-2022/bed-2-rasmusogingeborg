@@ -1,6 +1,7 @@
 """Tool for cleaning up a BED file."""
 
-import argparse  # we use this module for option parsing. See main for details.
+import argparse
+from re import A  # we use this module for option parsing. See main for details.
 
 import sys
 from typing import TextIO
@@ -30,8 +31,48 @@ def read_bed_file(f: TextIO) -> list[BedLine]:
 
 
 def merge(f1: list[BedLine], f2: list[BedLine], outfile: TextIO) -> None:
-    """Merge features and write them to outfile."""
-    # FIXME: I have work to do here!
+    """Merge features and write them to outfile.
+    
+    """
+    # Input bedlines er sorted. 
+    # Hver region kun én nucleotid lang. 
+
+    a=0
+    b=0
+
+    while a <= len(f1)-1 and b <= len(f2)-1:
+        if f1[a][0]==f2[b][0]:
+            if f1[a][1]<f2[b][1]:
+                print_line(f1[a],outfile)
+                a+=1
+            elif f1[a][0]>f2[b][0]:
+                print_line(f1[b],outfile)
+                b+=1
+            elif f1[a][1]==f2[b][1]:
+                print_line(f1[a],outfile)
+                a+=1
+                print_line(f1[b],outfile)
+                b+=1
+                
+            
+        else:
+            if f1[a][0]<f2[b][0]:
+                print_line(f1[a],outfile)
+                a+=1
+            elif f1[a][0]>f2[b][0]:
+                print_line(f1[b],outfile)
+                b+=1
+    
+    if a != len(f1)-1:
+        for i in range(a,len(f1)-1):
+            print_line(f1[i],outfile)
+    elif b != len(f2)-1:
+        for i in range(b,len(f2)-1):
+            print_line(f1[i],outfile)
+
+
+   
+
 
 
 def main() -> None:
