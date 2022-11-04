@@ -17,9 +17,6 @@ def sort_file(table: Table) -> None:
         # Here we iterate through all the chromosomes in the file.
         # You need to sort `features` with respect to chrom_start
         # and then update the table
-        for i in range(len(features)): # iterate over all BedLines in
-        # list. 
-            print(features[i].chrom_start)
         table[chrom] = sorted(features)  # features should be sorted here
 
 
