@@ -32,16 +32,7 @@ def read_bed_file(f: TextIO) -> list[BedLine]:
 
 def merge(f1: list[BedLine], f2: list[BedLine], outfile: TextIO) -> None:
     """Merge features and write them to outfile.
-    >>> merge([BedLine(chrom='chr1', chrom_start=600, chrom_end=601, name='qux'), \
-        BedLine(chrom='chr1', chrom_start=20100, chrom_end=20101, name='qux'), \
-        BedLine(chrom='chr2', chrom_start=199, chrom_end=200, name='qux'), \
-        BedLine(chrom='chr2', chrom_start=200, chrom_end=201, name='qux'), \
-        BedLine(chrom='chr3', chrom_start=0, chrom_end=1, name='qux')], \
-        [BedLine(chrom='chr1', chrom_start=600, chrom_end=601, name='qax'), \
-        BedLine(chrom='chr1', chrom_start=20100, chrom_end=20101, name='qax'), \
-        BedLine(chrom='chr2', chrom_start=199, chrom_end=200, name='qax'), \
-        BedLine(chrom='chr2', chrom_start=200, chrom_end=201, name='qax'), \
-        BedLine(chrom='chr3', chrom_start=0, chrom_end=1, name='qax')])
+    
     """
     # Input bedlines er sorted. 
     # Hver region kun én nucleotid lang. 
